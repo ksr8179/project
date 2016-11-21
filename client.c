@@ -17,7 +17,7 @@
  
 int main(int argc, char** argv) 
 {
-	char a[10];
+	char a[20];
     if (argc != 2) 
     {
         printf("Usage: %s IPv4-address\n", argv[0]);
@@ -37,13 +37,13 @@ int main(int argc, char** argv)
            exit(1);
        }
  
-    //connect file descriptor 선언
+    //connect file descriptor 선언	
  
     // memset은 모든 값을 0으로 초기화 해주기위해 클라이언트 실행 시 이용한다.
      memset( &server_addr, 0, sizeof( server_addr));
  
      server_addr.sin_family     = AF_INET;
-      server_addr.sin_port       = htons(9190); // 포트번호를 4000으로 임의 지정해두었다.
+      server_addr.sin_port       = htons(9190); // 포트번호를 9190으로 임의 지정해두었다.
      server_addr.sin_addr.s_addr= inet_addr("127.0.0.1"); // 서버 ip는 로컬 주소인 127.0.0.1로 지정해두었다.
  
     //서버에 접속하시오
@@ -53,13 +53,32 @@ int main(int argc, char** argv)
             printf("접속 실패\n");
             exit(1);
       }
-    printf("책검색 : ");
+	
+    	printf("책검색 : ");
+	
 	scanf("%s",a);
         char buffer[BUFFER_LEN] = {0};
-        sprintf(buffer, a);
-        write(client_socket, buffer, strlen(buffer));
+        //sprintf(buffer, a);
+        write(client_socket, a, strlen(a));
+	
+	char s[BUFFER_LEN] = "";
+	int n = read(client_socket, s, BUFFER_LEN);
+    	buffer[n] = '\0';
+   	 printf("서버로 부터 넘어온 값 : %s\n",s);
 
-    
+	char* b[4][4];
+	int i =0;
+	char* token = NULL;
+	token = strtok(s," ");
+	while(token != NULL){
+	b[0][i] = token;
+	printf("%s\n",token);
+	token = strtok(NULL," ");
+	i+=1;
+	}
+	printf("%s\n",b[0][0]);
+	
+	
  
     //클라이언트 접속 종료
      close( client_socket);

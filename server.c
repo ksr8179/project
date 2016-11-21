@@ -14,7 +14,9 @@ MYSQL mysql;
 MYSQL_RES* res;
 MYSQL_ROW row; 
 char query[80];
+
 int i, fields; 	
+int j=0;
 
 #define PORT 10000
 #define BUFFER_LEN 100
@@ -22,9 +24,11 @@ int i, fields;
 #define BUFF_SIZE 1024
 #define LISTEN_QUEUE_SIZE 5
 
-void search_query(char value[10])
+void search_query(char value[20])
 {
-	sprintf(query,"select * from book where name = '%s'", value);
+	sprintf(query,"select * from book where name like '%%%s%%'", value);
+	//sprintf(query,"select * from %s", value);
+	
 	if (mysql_query(&mysql, query)) {
 	 	printf("MySQL Error %d: %s\n",
 		mysql_errno(&mysql), mysql_error(&mysql));
@@ -115,10 +119,10 @@ int main(int argc, char *argv[])
  
  
  
- 
+ 	while (1) 
+    	{
     // accept 기다리는 과정
-    while (1) 
-    {
+    
         //클라이언트를 accept하는 과정
         client_fd = accept(server_fd, (struct sockaddr *)&client_addr, (socklen_t *)&len);
  
@@ -131,32 +135,45 @@ int main(int argc, char *argv[])
         
         inet_ntop(AF_INET, &client_addr.sin_addr.s_addr, temp, sizeof(temp));
         printf("Server: %s client connect,\n", temp);
+	
         
-        //DB_connect();
+        
         //서버에서 메세지 전송
         char buffer[BUFFER_LEN];
    	 int n = read(client_fd, buffer, BUFFER_LEN);
     	buffer[n] = '\0';
-   	 printf("클라이언트로 부터 넘어온 값 : %s",buffer);
- 
-        //클라이언트 접속 종료
-        printf("Server: %s client closed.\n", temp);
-        close(client_fd);
+   	 printf("클라이언트로 부터 넘어온 값 : %s\n",buffer);
+
+ 	DB_connect();
+	search_query(buffer);
+	res = mysql_use_result(&mysql);
+ 	fields = mysql_num_fields(res);
+	char s[] = "";
+ 	printf("Total student is as follows.\n");
+	
+ 	while ((row = mysql_fetch_row(res))) {
+	
+ 		for (i = 0; i < fields; ++i) {	
+			strcat(s,row[i]);
+			strcat(s," ");
+			
+		}
+		
+	}     
+		printf("%12s\n", s);
+	
+        //sprintf(buffer, s);
+	
+        write(client_fd, s, strlen(s));
     }
  
-    
-    
- 
-	
- 	
- 	
-	
-	//DB_connect();
-	//search_query(a);
-	//print();
  	
  	mysql_free_result(res); 
  	mysql_close(&mysql);
+	
+	printf("Server: %s client closed.\n", temp);
+	//클라이언트 접속 종료
+	close(client_fd);
 	//서버 listen socket 종료
 	close(server_fd);
  	return 0;
