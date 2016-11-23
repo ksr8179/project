@@ -19,7 +19,7 @@
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QTableWidget>
+#include <QtWidgets/QTableView>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -28,17 +28,17 @@ class Ui_ManagerWindow
 {
 public:
     QWidget *centralwidget;
-    QTableWidget *tableWidget;
+    QTableView *tableView;
     QFrame *frame;
     QLabel *label;
     QLabel *label_2;
     QLabel *label_3;
     QLineEdit *lineEdit;
     QLineEdit *lineEdit_2;
-    QPushButton *pushButton;
+    QPushButton *addBookBtn;
     QLabel *label_5;
     QLineEdit *lineEdit_3;
-    QPushButton *pushButton_2;
+    QPushButton *booklistBtn;
     QLabel *label_4;
     QFrame *frame_2;
     QLabel *label_6;
@@ -46,7 +46,7 @@ public:
     QLabel *label_8;
     QLineEdit *lineEdit_4;
     QLineEdit *lineEdit_5;
-    QPushButton *pushButton_3;
+    QPushButton *delBookBtn;
 
     void setupUi(QMainWindow *ManagerWindow)
     {
@@ -62,9 +62,9 @@ public:
         ManagerWindow->setMaximumSize(QSize(503, 354));
         centralwidget = new QWidget(ManagerWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
-        tableWidget = new QTableWidget(centralwidget);
-        tableWidget->setObjectName(QStringLiteral("tableWidget"));
-        tableWidget->setGeometry(QRect(10, 130, 481, 211));
+        tableView = new QTableView(centralwidget);
+        tableView->setObjectName(QStringLiteral("tableView"));
+        tableView->setGeometry(QRect(10, 130, 481, 211));
         frame = new QFrame(centralwidget);
         frame->setObjectName(QStringLiteral("frame"));
         frame->setGeometry(QRect(10, 10, 171, 111));
@@ -90,18 +90,18 @@ public:
         lineEdit_2 = new QLineEdit(frame);
         lineEdit_2->setObjectName(QStringLiteral("lineEdit_2"));
         lineEdit_2->setGeometry(QRect(60, 60, 101, 16));
-        pushButton = new QPushButton(frame);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(120, 80, 41, 21));
+        addBookBtn = new QPushButton(frame);
+        addBookBtn->setObjectName(QStringLiteral("addBookBtn"));
+        addBookBtn->setGeometry(QRect(120, 80, 41, 21));
         label_5 = new QLabel(frame);
         label_5->setObjectName(QStringLiteral("label_5"));
         label_5->setGeometry(QRect(10, 80, 52, 16));
         lineEdit_3 = new QLineEdit(frame);
         lineEdit_3->setObjectName(QStringLiteral("lineEdit_3"));
         lineEdit_3->setGeometry(QRect(60, 80, 51, 16));
-        pushButton_2 = new QPushButton(centralwidget);
-        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
-        pushButton_2->setGeometry(QRect(390, 50, 91, 61));
+        booklistBtn = new QPushButton(centralwidget);
+        booklistBtn->setObjectName(QStringLiteral("booklistBtn"));
+        booklistBtn->setGeometry(QRect(390, 50, 91, 61));
         label_4 = new QLabel(centralwidget);
         label_4->setObjectName(QStringLiteral("label_4"));
         label_4->setGeometry(QRect(390, 20, 91, 21));
@@ -127,9 +127,9 @@ public:
         lineEdit_5 = new QLineEdit(frame_2);
         lineEdit_5->setObjectName(QStringLiteral("lineEdit_5"));
         lineEdit_5->setGeometry(QRect(60, 60, 101, 16));
-        pushButton_3 = new QPushButton(frame_2);
-        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
-        pushButton_3->setGeometry(QRect(120, 80, 41, 21));
+        delBookBtn = new QPushButton(frame_2);
+        delBookBtn->setObjectName(QStringLiteral("delBookBtn"));
+        delBookBtn->setGeometry(QRect(120, 80, 41, 21));
         ManagerWindow->setCentralWidget(centralwidget);
 
         retranslateUi(ManagerWindow);
@@ -143,14 +143,14 @@ public:
         label->setText(QApplication::translate("ManagerWindow", "\353\217\204\354\204\234 \354\266\224\352\260\200", 0));
         label_2->setText(QApplication::translate("ManagerWindow", "\354\261\205 \354\235\264 \353\246\204 : ", 0));
         label_3->setText(QApplication::translate("ManagerWindow", "\354\266\234 \355\214\220 \354\202\254 : ", 0));
-        pushButton->setText(QApplication::translate("ManagerWindow", "\355\231\225   \354\235\270", 0));
+        addBookBtn->setText(QApplication::translate("ManagerWindow", "\355\231\225   \354\235\270", 0));
         label_5->setText(QApplication::translate("ManagerWindow", "\354\210\230     \353\237\211 :", 0));
-        pushButton_2->setText(QApplication::translate("ManagerWindow", "\355\201\264    \353\246\255", 0));
+        booklistBtn->setText(QApplication::translate("ManagerWindow", "\355\201\264    \353\246\255", 0));
         label_4->setText(QApplication::translate("ManagerWindow", "\353\217\204\354\204\234 \353\252\251\353\241\235 \353\263\264\352\270\260", 0));
         label_6->setText(QApplication::translate("ManagerWindow", "\353\217\204\354\204\234 \354\202\255\354\240\234", 0));
         label_7->setText(QApplication::translate("ManagerWindow", "\354\261\205 \354\235\264 \353\246\204 : ", 0));
         label_8->setText(QApplication::translate("ManagerWindow", "\354\266\234 \355\214\220 \354\202\254 : ", 0));
-        pushButton_3->setText(QApplication::translate("ManagerWindow", "\355\231\225   \354\235\270", 0));
+        delBookBtn->setText(QApplication::translate("ManagerWindow", "\355\231\225   \354\235\270", 0));
     } // retranslateUi
 
 };

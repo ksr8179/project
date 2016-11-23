@@ -35,9 +35,9 @@ public:
     QLabel *label_3;
     QLineEdit *lineEdit;
     QLineEdit *lineEdit_2;
-    QPushButton *pushButton;
+    QPushButton *searchBookBtn;
     QLabel *label_4;
-    QPushButton *pushButton_2;
+    QPushButton *bookListBtn;
 
     void setupUi(QMainWindow *publicWindow)
     {
@@ -81,16 +81,16 @@ public:
         lineEdit_2 = new QLineEdit(frame);
         lineEdit_2->setObjectName(QStringLiteral("lineEdit_2"));
         lineEdit_2->setGeometry(QRect(60, 60, 101, 16));
-        pushButton = new QPushButton(frame);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(170, 40, 61, 41));
+        searchBookBtn = new QPushButton(frame);
+        searchBookBtn->setObjectName(QStringLiteral("searchBookBtn"));
+        searchBookBtn->setGeometry(QRect(170, 40, 61, 41));
         label_4 = new QLabel(centralwidget);
         label_4->setObjectName(QStringLiteral("label_4"));
         label_4->setGeometry(QRect(260, 10, 91, 21));
         label_4->setFont(font);
-        pushButton_2 = new QPushButton(centralwidget);
-        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
-        pushButton_2->setGeometry(QRect(260, 40, 91, 61));
+        bookListBtn = new QPushButton(centralwidget);
+        bookListBtn->setObjectName(QStringLiteral("bookListBtn"));
+        bookListBtn->setGeometry(QRect(260, 40, 91, 61));
         publicWindow->setCentralWidget(centralwidget);
 
         retranslateUi(publicWindow);
@@ -104,9 +104,9 @@ public:
         label->setText(QApplication::translate("publicWindow", "\353\217\204\354\204\234 \352\262\200\354\203\211", 0));
         label_2->setText(QApplication::translate("publicWindow", "\354\261\205 \354\235\264 \353\246\204 : ", 0));
         label_3->setText(QApplication::translate("publicWindow", "\354\266\234 \355\214\220 \354\202\254 : ", 0));
-        pushButton->setText(QApplication::translate("publicWindow", "\352\262\200   \354\203\211", 0));
+        searchBookBtn->setText(QApplication::translate("publicWindow", "\352\262\200   \354\203\211", 0));
         label_4->setText(QApplication::translate("publicWindow", "\353\217\204\354\204\234 \353\252\251\353\241\235 \353\263\264\352\270\260", 0));
-        pushButton_2->setText(QApplication::translate("publicWindow", "\355\201\264    \353\246\255", 0));
+        bookListBtn->setText(QApplication::translate("publicWindow", "\355\201\264    \353\246\255", 0));
     } // retranslateUi
 
 };
