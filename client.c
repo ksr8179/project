@@ -17,7 +17,7 @@
  
 int main(int argc, char** argv) 
 {
-	char a[20];
+	char a[20] = "";
     if (argc != 2) 
     {
         printf("Usage: %s IPv4-address\n", argv[0]);
@@ -53,11 +53,11 @@ int main(int argc, char** argv)
             printf("접속 실패\n");
             exit(1);
       }
-	
+	while(1){
     	printf("책검색 : ");
-	
+	//fgets(a,
 	scanf("%s",a);
-        char buffer[BUFFER_LEN] = {0};
+        char buffer[BUFFER_LEN];
         //sprintf(buffer, a);
         write(client_socket, a, strlen(a));
 	
@@ -69,14 +69,15 @@ int main(int argc, char** argv)
 	char* b[4][4];
 	int i =0;
 	char* token = NULL;
-	token = strtok(s," ");
+	token = strtok(s,"/");
 	while(token != NULL){
 	b[0][i] = token;
 	printf("%s\n",token);
-	token = strtok(NULL," ");
+	token = strtok(NULL,"/");
 	i+=1;
 	}
 	printf("%s\n",b[0][0]);
+	}
 	
 	
  

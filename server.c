@@ -119,8 +119,6 @@ int main(int argc, char *argv[])
  
  
  
- 	while (1) 
-    	{
     // accept 기다리는 과정
     
         //클라이언트를 accept하는 과정
@@ -137,7 +135,8 @@ int main(int argc, char *argv[])
         printf("Server: %s client connect,\n", temp);
 	
         
-        
+        while (1) 
+    	{
         //서버에서 메세지 전송
         char buffer[BUFFER_LEN];
    	 int n = read(client_fd, buffer, BUFFER_LEN);
@@ -155,7 +154,7 @@ int main(int argc, char *argv[])
 	
  		for (i = 0; i < fields; ++i) {	
 			strcat(s,row[i]);
-			strcat(s," ");
+			strcat(s,"/");
 			
 		}
 		
