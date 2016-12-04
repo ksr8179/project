@@ -26,9 +26,9 @@ int main(int argc, char** argv)
  
     //서버에 접속할 소켓 데이터 구조 생성과정
  
-       int   client_socket;
-     struct sockaddr_in   server_addr;
-       char   buff[BUFF_SIZE+5];
+       int client_socket;
+     struct sockaddr_in client_addr;
+       char buff[BUFF_SIZE+5];
  
       client_socket = socket(PF_INET, SOCK_STREAM, 0);
       if(client_socket == -1)
@@ -40,32 +40,39 @@ int main(int argc, char** argv)
     //connect file descriptor 선언	
  
     // memset은 모든 값을 0으로 초기화 해주기위해 클라이언트 실행 시 이용한다.
-     memset( &server_addr, 0, sizeof( server_addr));
+     memset(&client_addr, 0, sizeof(client_addr));
  
-     server_addr.sin_family     = AF_INET;
-      server_addr.sin_port       = htons(9190); // 포트번호를 9190으로 임의 지정해두었다.
-     server_addr.sin_addr.s_addr= inet_addr("127.0.0.1"); // 서버 ip는 로컬 주소인 127.0.0.1로 지정해두었다.
+     client_addr.sin_family = AF_INET;
+     client_addr.sin_port = htons(9190); // 포트번호를 9190으로 임의 지정해두었다.
+     client_addr.sin_addr.s_addr= inet_addr("127.0.0.1"); // 서버 ip는 로컬 주소인 127.0.0.1로 지정해두었다.
  
     //서버에 접속하시오
  
-      if(connect(client_socket, (struct sockaddr*)&server_addr, sizeof(server_addr)) == -1)
-       {
+        if(connect(client_socket, (struct sockaddr*)&client_addr, sizeof(client_addr)) == -1)
+        {
             printf("접속 실패\n");
             exit(1);
-      }
+        }
+   	printf("접속에 성공했습니다.\n");
+
 	while(1){
     	printf("책검색 : ");
-	//fgets(a,
 	scanf("%s",a);
         char buffer[BUFFER_LEN];
-        //sprintf(buffer, a);
         write(client_socket, a, strlen(a));
 	
 	char s[BUFFER_LEN] = "";
 	int n = read(client_socket, s, BUFFER_LEN);
     	buffer[n] = '\0';
-   	 printf("서버로 부터 넘어온 값 : %s\n",s);
-
+        
+	//s[2]='\0';
+        if(strcmp(s,"책이 없습니다.")==0){
+		printf("Error\n");
+		continue;
+	}
+	else{
+   	 	printf("서버로부터 넘어온 값 : %s\n",s);
+	}
 	char* b[4][4];
 	int i =0;
 	char* token = NULL;
@@ -77,12 +84,15 @@ int main(int argc, char** argv)
 	i+=1;
 	}
 	printf("%s\n",b[0][0]);
+	__fpurge(stdin);
 	}
 	
 	
  
     //클라이언트 접속 종료
-     close( client_socket);
+     close(client_socket);
  
     return 0;
 }
+
+
