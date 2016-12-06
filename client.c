@@ -11,7 +11,7 @@
 #include <arpa/inet.h>
  
 #define PORT 10000
-#define BUFFER_LEN 300
+#define BUFFER_LEN 1000
 #define CHAT_SIZE 1024
 #define BUFF_SIZE 1024
 #define LISTEN_QUEUE_SIZE 5
@@ -21,7 +21,7 @@ int client_socket;
 struct sockaddr_in client_addr;
 char buff[BUFF_SIZE+5];
 char buffer[BUFFER_LEN];
-char a[20] = "";
+char a[100] = "";
 char id[] = "";
 char pwd[10] = "";
 char admin_chk[] = "";
@@ -95,27 +95,99 @@ void select_tuple()
 	char s[BUFFER_LEN] = "";
 	int n = read(client_socket, s, BUFFER_LEN);
     	buffer[n] = '\0';
-	printf("%s",s);
         
 	if(strcmp(s,"empty") == 0){
 		gotoxy(6,14);
 		printf("검색하신 책이 없습니다.");
 	}
 	else{
-	int j =0;
-	char* token = NULL;
-	token = strtok(s,"/");
-	while(token != NULL){
-	b[0][j] = token;
-	printf("%s",token);
-	token = strtok(NULL,"/");
-	j+=1;
+		int c =0;
+		int to =0;
+		char* token = NULL;
+		token = strtok(s,"/");
+		char *name[100][100] = {0,};
+  	
+             while(token != NULL){
+		
+		name[c][to] = token;
+		token = strtok(NULL,"/");
+		to++;
+
+		if(to>3){
+			c++;
+			to=0;
+		}
+	     }
+		
+		gotoxy(1,10);
+		int d = 0;
+
+		for(d;d<c;d++){
+			printf("| %-18s | %-10s | %-15s | %-2s |\n",name[d][0],name[d][1],name[d][2],name[d][3]);
+		}
 	}
-	gotoxy(2,10);
-	printf("| %-15s | %-10s | %-10s | %-2s |",b[0][0],b[0][1],b[0][2],b[0][3]);
-	}
+	buffer[0]='\0';
 	getch();
 }
+
+
+int insert_tuple(){
+		char name[100];
+		char writer[50];
+		char publisher[50];
+		char count[100];
+
+		for(i=0; i<25; i++){
+			printf("                                                                          \n");
+		}
+		gotoxy(0,0);
+		print_screen("insert_view.txt");
+
+		
+		gotoxy(25,4);
+		scanf("%s",name);
+		fflush(stdin);
+		write(client_socket,name, strlen(name));
+		gotoxy(25,6);	
+		scanf("%s",writer);
+		fflush(stdin);
+		write(client_socket,writer,strlen(writer));
+		gotoxy(25,8);
+		scanf("%s",publisher);
+		fflush(stdin);
+		write(client_socket,publisher,strlen(publisher));
+		gotoxy(25,10);
+		scanf("%s",count);
+		fflush(stdin);
+		write(client_socket,count,strlen(count));
+		getch();
+        
+        
+	
+
+	char insert[BUFFER_LEN] = "";
+	int n = read(client_socket, insert, BUFFER_LEN);
+    	buffer[n] = '\0';
+
+	if(strcmp(insert,"noInsert") == 0){
+		gotoxy(10,14);
+		printf("도서 추가에 실패하였습니다.");
+		getch();
+	}else if(strcmp(insert,"success")==0){
+		gotoxy(10,14);
+		printf("도서 추가에 성공하였습니다.");
+		getch();
+	}
+	
+
+}
+
+
+void delete_tuple(){
+		
+
+}
+
 
 void login()
 {
@@ -191,8 +263,7 @@ int main(int argc, char** argv)
 	scanf("%s",admin_chk);
 	fflush(stdin);
 	write(client_socket, admin_chk, strlen(admin_chk));
-	//getch();
-	
+
 	if(admin_chk[0] == '1'){
 		select_tuple();
 	
@@ -200,59 +271,56 @@ int main(int argc, char** argv)
 	else if(admin_chk[0] == '2'){
 		login();
 		
-		while(1){
-		if(strcmp(s,"1")==0){
+	    while(1){
+	     if(strcmp(s,"1")==0){
 		gotoxy(26,5);
 		printf("로그인성공");
 		getch();
 		gotoxy(0,0);
 		
 		while(1){
-		for(i=0; i<25; i++){
-		printf("                                                                          \n");
-		}
-		gotoxy(0,0);
-		print_screen("menu_view.txt");
-		gotoxy(36,10);
-	
-		scanf("%s",check);
-		fflush(stdin);
-		strcat(check,"a");
-		write(client_socket, check, strlen(check));
-
-		if(check[0] == '1' && check[1] == 'a'){
-			select_tuple();
-		}
-		if(check[0] == '2' && check[1] == 'a'){
-		
-		}
-		if(check[0] == '3' && check[1] == 'a'){
-		
-		}
-		if(check[0] == '4' && check[1] == 'a'){
-		
-		}
-		if(check[0] == '5' && check[1] == 'a'){
 			for(i=0; i<25; i++){
-			printf("                                                                          \n");
+				printf("                                                                          \n");
+			}
+			gotoxy(0,0);
+			print_screen("menu_view.txt");
+			gotoxy(36,10);
+	
+			scanf("%s",check);
+			fflush(stdin);
+			strcat(check,"a");
+			write(client_socket, check, strlen(check));
+
+			if(check[0] == '1' && check[1] == 'a'){
+				insert_tuple();
+			}
+			if(check[0] == '2' && check[1] == 'a'){
+				select_tuple();
+			}
+			if(check[0] == '3' && check[1] == 'a'){
+				//delete_tuple();
+			}
+			if(check[0] == '4' && check[1] == 'a'){
+				for(i=0; i<25; i++){
+				printf("                                                                          \n");
 			}
 			gotoxy(0,0);
 			exit(1);
-		}
-		else{
-			gotoxy(38,12);
-			printf("값을 잘못 입력하였습니다.");
-			continue;
-		}
-		}
+			}
+			else{
+				gotoxy(38,12);
+				printf("값을 잘못 입력하였습니다.");
+				continue;
+			}
+		    }
 		}	
 		else if(strcmp(s,"empty")==0){
-		gotoxy(26,5);
-		printf("아이디 혹은 비밀번호가 틀렸습니다.");
-		getch();
-		continue;
+			gotoxy(26,5);
+			printf("아이디 혹은 비밀번호가 틀렸습니다.");
+			getch();
+			continue;
 		}
-		}
+	    }
 		
 	}
 	else{
