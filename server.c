@@ -34,7 +34,7 @@ int server_fd, client_fd;
 
 int search_query(char value[20])
 {	
-	char select_data[100] = "";
+	char select_data[1000] = "";
 	char select_error[100] = "empty";
 	int select_chk = 0;
 	
@@ -59,7 +59,7 @@ int search_query(char value[20])
  	   		printf("-------------------------\n");
 			
  	   		while ((row = mysql_fetch_row(res))) {
- 				for (i = 0; i < fields; ++i) {	
+ 				for (i = 0; i < fields; i++) {	
 					strcat(select_data,row[i]);
 					strcat(select_data,"/");
 			

@@ -11,7 +11,7 @@
 #include <arpa/inet.h>
  
 #define PORT 10000
-#define BUFFER_LEN 100
+#define BUFFER_LEN 300
 #define CHAT_SIZE 1024
 #define BUFF_SIZE 1024
 #define LISTEN_QUEUE_SIZE 5
@@ -95,6 +95,7 @@ void select_tuple()
 	char s[BUFFER_LEN] = "";
 	int n = read(client_socket, s, BUFFER_LEN);
     	buffer[n] = '\0';
+	printf("%s",s);
         
 	if(strcmp(s,"empty") == 0){
 		gotoxy(6,14);
@@ -105,7 +106,8 @@ void select_tuple()
 	char* token = NULL;
 	token = strtok(s,"/");
 	while(token != NULL){
-	b[0][j] = token;	
+	b[0][j] = token;
+	printf("%s",token);
 	token = strtok(NULL,"/");
 	j+=1;
 	}
