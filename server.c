@@ -84,8 +84,6 @@ int insert_query(char name[50],char writer[50],char publisher[50],char count[50]
 		mysql_errno(&mysql), mysql_error(&mysql));
 		
 		write(client_fd, insert_error, strlen(insert_error));
- 		mysql_free_result(res); 
-		return 0;
 	//good!!
 	}else{
 		write(client_fd,insert_data,strlen(insert_data));
@@ -95,7 +93,20 @@ int insert_query(char name[50],char writer[50],char publisher[50],char count[50]
 
 
 int delete_query(char name[300]){
-
+	char delete_data[30] = "success";
+	char delete_error[30] = "fail";
+	
+	sprintf(query,"delete from book where name = '%s'", name);
+	
+	if (mysql_query(&mysql, query)) {
+	 	printf("MySQL Error %d: %s\n",
+		mysql_errno(&mysql), mysql_error(&mysql));
+		
+		write(client_fd, delete_error, strlen(delete_error));
+	//good!!
+	}else{
+		write(client_fd,delete_data,strlen(delete_data));
+     	}
 	
 }
 
@@ -261,7 +272,7 @@ int main(int argc, char *argv[])
 			continue;
 		}
 	}else if(chk[0] == '3' && chk[1] == 'a'){
-		/*int sn = read(client_fd, buffer, BUFFER_LEN);
+		int sn = read(client_fd, buffer, BUFFER_LEN);
     		buffer[sn] = '\0';
    		printf("%s\n",buffer);
 
