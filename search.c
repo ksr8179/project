@@ -29,42 +29,41 @@ struct sockaddr_in server_addr;
 char temp[20];
 int server_fd, client_fd;
 
-void login_query(char value[20],char value2[20]){
-	char login_error[20] = "empty";
-	char login_data[200] = "";
-	int login_chk = 0;
-	sprintf(query,"select chk from login where id = '%s' and pwd = '%s'", value, value2);
-	login_chk = 0;
+
+int search_query(char value[30])
+{	
+	char select_data[1000] = "";
+	char select_error[100] = "empty";
+	int select_chk = 0;
+	
+	sprintf(query,"select * from book where name like '%%%s%%'", value);
 	
 	if (mysql_query(&mysql, query)) {
 	 	printf("MySQL Error %d: %s\n",
 		mysql_errno(&mysql), mysql_error(&mysql));
-	
 	}else{
 		res = mysql_store_result(&mysql);
-		
 			fields = mysql_num_fields(res);
- 	   		printf("------------------------------------\n");
-			
+			printf("------------------------------------\n");
+ 	   		
  	   		while ((row = mysql_fetch_row(res))) {
- 				for (i = 0; i < fields; ++i) {	
-					strcat(login_data,row[i]);
-			
+ 				for (i = 0; i < fields; i++) {	
+					strcat(select_data,row[i]);
+					strcat(select_data,"/");
 				}
-				login_chk = 1;
-		
-	   		} 
-			mysql_free_result(res);     
-			if(login_chk == 0){
-			printf("클라이언트로 보낼 값 : %s\n", login_error);
-			write(client_fd, login_error, strlen(login_error));
-			}
-			if(login_chk == 1){
-			printf("클라이언트로 보낼 값 : %s\n", login_data);
-          		write(client_fd, login_data, strlen(login_data));
- 			}
+				select_chk = 1;
 			
+	   		}     
+			
+			if(select_chk == 0){
+			printf("클라이언트로 보낼 값 : %s\n", select_error);
+			write(client_fd, select_error, strlen(select_error));
+			}
+			if(select_chk == 1){
+			printf("클라이언트로 보낼 값 : %s\n", select_data);
+          		write(client_fd, select_data, strlen(select_data));
+			}
+ 			mysql_free_result(res); 
 		
      	}
-
 }
