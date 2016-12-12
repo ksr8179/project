@@ -24,6 +24,7 @@ public:
 private slots:
     void on_bookListBtn_clicked();
     void connected();
+    void startTransfer();
 
 private:
     Ui::publicWindow *ui;

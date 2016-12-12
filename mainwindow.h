@@ -21,6 +21,8 @@ private slots:
     void connected();
     void on_managerPushBtn_clicked();
     void on_publicPushBtn_clicked();
+    void startTransfer();
+    void readAll();
 
 private:
     Ui::MainWindow *ui;

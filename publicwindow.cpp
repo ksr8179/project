@@ -18,8 +18,9 @@ publicWindow::publicWindow(QWidget *parent, const char *name, bool modal, Qt::Wi
     QStringList title;
     client = new QTcpSocket(this);
     connect(client, SIGNAL(connected()),
-      this, SLOT(connected()));
-    connect(client,SIGNAL(connected()),this,SLOT(on_bookListBtn_clicked()));
+      this, SLOT(startTransfer()));
+    connect(client,SIGNAL(connected()),SLOT(readAll()));
+   // connect(client,SIGNAL(connected()),this,SLOT(startTransfer()));
     ui->tableWidget->setColumnCount(4);
     title<<"책번호"<<"책이름"<<"출판사"<<"수량";
     ui->tableWidget->setHorizontalHeaderLabels(title);
@@ -27,14 +28,14 @@ publicWindow::publicWindow(QWidget *parent, const char *name, bool modal, Qt::Wi
 }
 
 void publicWindow::connected(){
-    start("127.0.0.1",9190);
+    //start("127.0.0.1",9190);
+}
+
+void publicWindow::startTransfer(){
+    client->write("1");
 }
 
 
-void publicWindow::start(QString address, quint16 port){
-    QHostAddress addr(address);
-    client->connectToHost(addr, port);
-}
 publicWindow::~publicWindow()
 {
     client->close();
@@ -46,7 +47,7 @@ void publicWindow::on_bookListBtn_clicked()
 {
 
     QString s = ui->lineEdit->text().toUtf8().trimmed();
-    client->write(s.toUtf8());
+    //client->write(s.toUtf8());
     qDebug() <<s;
     ui->tableWidget->removeRow(ui->tableWidget->rowCount());
     ui->tableWidget->clear();
